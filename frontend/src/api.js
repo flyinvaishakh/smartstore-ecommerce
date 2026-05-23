@@ -1,10 +1,10 @@
 import axios from 'axios';
 
+// Create a clean fallback variable first
+const backendUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 const api = axios.create({
-  // Look for the Vercel environment variable, fallback to local if not found
-  baseURL: import.meta.env.VITE_API_URL 
-    ? `${import.meta.env.VITE_API_URL}/api` 
-    : 'http://localhost:5000/api',
+  baseURL: `${backendUrl}/api`,
 });
 
 api.interceptors.request.use((config) => {
