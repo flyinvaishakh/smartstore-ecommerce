@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Store, ArrowRight, Loader2, Eye, EyeOff } from 'lucide-react';
 import api from '../api';
@@ -11,12 +11,13 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  // Redirect if already logged in
-  const token = localStorage.getItem('token');
-  if (token) {
-    navigate('/');
-    return null;
-  }
+  // FIX: Safely run redirection side-effects inside useEffect
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/');
+    }
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
